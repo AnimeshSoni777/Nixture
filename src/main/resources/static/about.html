@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About | Nixture Security</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <script>
+        tailwind.config = {
+          darkMode: 'class',
+          theme: {
+            extend: {
+              fontFamily: { sans: ['"Plus Jakarta Sans"', "sans-serif"] },
+              colors: { brand: { DEFAULT: "#2563EB", 50: "#eff6ff", 100: "#dbeafe", 500: "#3b82f6", 600: "#2563EB", 800: "#1e40af", 900: "#1e3a8a" } },
+            },
+          },
+        };
+    </script>
+</head>
+
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 min-h-screen flex flex-col font-sans transition-colors duration-300">
+
+<nav class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-200 dark:border-slate-800 shadow-sm transition-all">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2 group">
+            <div class="bg-brand-100 dark:bg-brand-900/50 p-2 rounded-lg text-brand-600 dark:text-brand-400 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <span class="font-bold text-xl tracking-tight text-slate-800 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">Nixture</span>
+        </a>
+
+        <div class="flex items-center gap-4 md:gap-6">
+            <a href="/about.html" class="hidden md:block text-sm font-bold text-brand-600 dark:text-brand-400 transition-colors">About</a>
+
+            <button id="theme-toggle" type="button" class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-sm p-2 transition-colors">
+                <i id="theme-toggle-dark-icon" class="hidden fa-solid fa-moon text-lg"></i>
+                <i id="theme-toggle-light-icon" class="hidden fa-solid fa-sun text-lg"></i>
+            </button>
+
+            <div class="hidden md:flex flex-col items-end text-xs border-l border-slate-200 dark:border-slate-700 pl-4">
+                <span class="text-slate-400 dark:text-slate-500 font-medium">Developed by</span>
+                <a href="https://github.com/AnimeshSoni777" target="_blank" class="text-brand-600 dark:text-brand-400 font-bold hover:underline transition-colors">Animesh Soni</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="flex-grow">
+    <section class="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 py-16 md:py-24 relative z-10 transition-colors">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brand-600 dark:text-brand-400 font-bold text-sm tracking-wider uppercase mb-2 block">Security Insights</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white mb-4">HTTP Security Parameters</h2>
+                <p class="text-slate-500 dark:text-slate-400 leading-relaxed">
+                    WebChecker analyzes server response headers to detect basic, often overlooked layers of defense.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-6 mb-16">
+
+                <div class="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)] xl:w-[calc(25%-18px)] group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-brand-200 dark:hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-900/5 transition-all duration-300 flex flex-col">
+                    <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600 text-brand-600 dark:text-brand-400 flex items-center justify-center text-xl mb-4 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">HSTS</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4 flex-grow">Forces browsers to use encrypted HTTPS. Prevents Man-in-the-Middle and Downgrade attacks.</p>
+                    <div class="flex flex-wrap gap-2 mt-auto"><span class="px-2 py-1 rounded bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-[10px] font-bold uppercase tracking-wide">Encryption</span></div>
+                </div>
+
+                <div class="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)] xl:w-[calc(25%-18px)] group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-brand-200 dark:hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-900/5 transition-all duration-300 flex flex-col">
+                    <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600 text-brand-600 dark:text-brand-400 flex items-center justify-center text-xl mb-4 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-shield-cat"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">CSP</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4 flex-grow">Controls which content sources can be loaded. The main layer of anti-XSS & Injection protection.</p>
+                    <div class="flex flex-wrap gap-2 mt-auto"><span class="px-2 py-1 rounded bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 text-[10px] font-bold uppercase tracking-wide">Anti-XSS</span></div>
+                </div>
+
+                <div class="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)] xl:w-[calc(25%-18px)] group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-brand-200 dark:hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-900/5 transition-all duration-300 flex flex-col">
+                    <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600 text-brand-600 dark:text-brand-400 flex items-center justify-center text-xl mb-4 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        <i class="fa-regular fa-window-maximize"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">X-Frame-Options</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4 flex-grow">Prevents websites from being displayed in iframes on other sites. Protects users from clickjacking.</p>
+                    <div class="flex flex-wrap gap-2 mt-auto"><span class="px-2 py-1 rounded bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-[10px] font-bold uppercase tracking-wide">Clickjacking</span></div>
+                </div>
+
+                <div class="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)] xl:w-[calc(25%-18px)] group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-brand-200 dark:hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-900/5 transition-all duration-300 flex flex-col">
+                    <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600 text-brand-600 dark:text-brand-400 flex items-center justify-center text-xl mb-4 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-file-shield"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">X-Content-Type</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4 flex-grow">Prevents browsers from MIME-sniffing. Ensures script files are only executed if they are the correct type.</p>
+                    <div class="flex flex-wrap gap-2 mt-auto"><span class="px-2 py-1 rounded bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 text-[10px] font-bold uppercase tracking-wide">MIME Sniffing</span></div>
+                </div>
+
+                <div class="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)] xl:w-[calc(25%-18px)] group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-brand-200 dark:hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-900/5 transition-all duration-300 flex flex-col">
+                    <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600 text-brand-600 dark:text-brand-400 flex items-center justify-center text-xl mb-4 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">Referrer-Policy</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4 flex-grow">Controls how much referral information is sent when a user clicks an outbound link.</p>
+                    <div class="flex flex-wrap gap-2 mt-auto"><span class="px-2 py-1 rounded bg-teal-50 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400 text-[10px] font-bold uppercase tracking-wide">Privacy</span></div>
+                </div>
+
+                <div class="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)] xl:w-[calc(25%-18px)] group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-brand-200 dark:hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-900/5 transition-all duration-300 flex flex-col">
+                    <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600 text-brand-600 dark:text-brand-400 flex items-center justify-center text-xl mb-4 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">Permissions-Policy</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4 flex-grow">Restrict access to advanced browser features to prevent misuse by third-party scripts.</p>
+                    <div class="flex flex-wrap gap-2 mt-auto"><span class="px-2 py-1 rounded bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 text-[10px] font-bold uppercase tracking-wide">Browser Features</span></div>
+                </div>
+
+                <div class="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)] xl:w-[calc(25%-18px)] group p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-brand-200 dark:hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-900/5 transition-all duration-300 flex flex-col">
+                    <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600 text-brand-600 dark:text-brand-400 flex items-center justify-center text-xl mb-4 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-bug-slash"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">X-XSS-Protection</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4 flex-grow">Legacy header for older browsers. Enables built-in XSS filters to prevent simple scripting attacks.</p>
+                    <div class="flex flex-wrap gap-2 mt-auto"><span class="px-2 py-1 rounded bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300 text-[10px] font-bold uppercase tracking-wide">Legacy</span></div>
+                </div>
+
+            </div>
+
+            <div class="bg-brand-900 rounded-3xl p-8 md:p-12 relative overflow-hidden text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-brand-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
+
+                <div class="relative z-10 max-w-2xl">
+                    <h3 class="text-2xl font-bold text-white mb-3">Why Is This Header Important?</h3>
+                    <p class="text-brand-100 leading-relaxed text-sm md:text-base">
+                        Websites without HTTP Security Headers pose a higher security risk. Even if the content is secure, the absence of these headers can be exploited for attacks such as XSS and clickjacking, as browsers lack adequate security restrictions.
+                    </p>
+                </div>
+
+                <div class="relative z-10 flex-shrink-0">
+                    <a href="/" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-bold rounded-xl text-brand-900 bg-white hover:bg-brand-50 transition-colors shadow-lg whitespace-nowrap">
+                        Check the Website Now
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-auto pt-10 pb-6 transition-colors">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+
+            <div class="flex flex-col gap-3">
+                <div class="flex items-center gap-2 group cursor-pointer">
+                    <div class="bg-brand-100 dark:bg-brand-900/50 p-2 rounded-lg text-brand-600 dark:text-brand-400 transition-colors">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-slate-800 dark:text-white">Nixture</span>
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed pr-4">
+                    An automated Application Security auditing tool designed to enforce HTTP compliance, discover client-side vulnerabilities, and educate developers.
+                </p>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <h4 class="font-bold text-slate-800 dark:text-white tracking-wide">Learn & Documentation</h4>
+                <ul class="flex flex-col gap-2 text-sm text-slate-500 dark:text-slate-400">
+                    <li>
+                        <a href="https://owasp.org/www-project-secure-headers/" target="_blank" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors flex items-center gap-2">
+                            <i class="fa-solid fa-book-open text-slate-400"></i> OWASP Secure Headers Project
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP" target="_blank" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors flex items-center gap-2">
+                            <i class="fa-brands fa-firefox-browser text-slate-400"></i> MDN: Content Security Policy
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security" target="_blank" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors flex items-center gap-2">
+                            <i class="fa-solid fa-lock text-slate-400"></i> MDN: HSTS Architecture
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options" target="_blank" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors flex items-center gap-2">
+                            <i class="fa-regular fa-window-maximize text-slate-400"></i> MDN: Clickjacking Defense
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col gap-3 md:items-end">
+                <h4 class="font-bold text-slate-800 dark:text-white tracking-wide">Connect with Developer</h4>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-1 md:text-right">Built by <strong>Animesh Soni</strong></p>
+                <div class="flex items-center gap-3">
+                    <a href="https://github.com/AnimeshSoni777" target="_blank" aria-label="GitHub" class="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-800 hover:text-white dark:hover:bg-brand-600 transition-all shadow-sm">
+                        <i class="fa-brands fa-github text-lg"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/animeshsoni" target="_blank" aria-label="LinkedIn" class="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-[#0A66C2] hover:text-white dark:hover:bg-[#0A66C2] transition-all shadow-sm">
+                        <i class="fa-brands fa-linkedin-in text-lg"></i>
+                    </a>
+                    <a href="https://www.instagram.com/animesh.soni.777?igsh=NXpla2VncWMxbGFk" target="_blank" aria-label="Instagram" class="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-[#E1306C] hover:text-white dark:hover:bg-[#E1306C] transition-all shadow-sm">
+                        <i class="fa-brands fa-instagram text-lg"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+            <p>&copy; <span id="year"></span> Nixture Security. All rights reserved.</p>
+            <p>Powered by Spring Boot & Java 17+</p>
+        </div>
+    </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

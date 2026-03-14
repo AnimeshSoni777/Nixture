@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nixture | Security Header Analyzer</title>
+    <meta name="description" content="Free Application Security tool for analyzing HTTP Security Headers." />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <script>
+        tailwind.config = {
+          darkMode: 'class',
+          theme: {
+            extend: {
+              fontFamily: { sans: ['"Plus Jakarta Sans"', "sans-serif"] },
+              colors: { brand: { DEFAULT: "#2563EB", 50: "#eff6ff", 100: "#dbeafe", 500: "#3b82f6", 600: "#2563EB", 800: "#1e40af", 900: "#1e3a8a" } },
+            },
+          },
+        };
+    </script>
+</head>
+
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 min-h-screen flex flex-col font-sans transition-colors duration-300">
+
+<nav class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-200 dark:border-slate-800 shadow-sm transition-all">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2 group">
+            <div class="bg-brand-100 dark:bg-brand-900/50 p-2 rounded-lg text-brand-600 dark:text-brand-400 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <span class="font-bold text-xl tracking-tight text-slate-800 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">Nixture</span>
+        </a>
+
+        <div class="flex items-center gap-6">
+            <a href="/about.html" class="hidden md:block text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">About</a>
+
+            <button id="theme-toggle" type="button" class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-sm p-2 transition-colors">
+                <i id="theme-toggle-dark-icon" class="hidden fa-solid fa-moon text-lg"></i>
+                <i id="theme-toggle-light-icon" class="hidden fa-solid fa-sun text-lg"></i>
+            </button>
+
+            <div class="hidden md:flex flex-col items-end text-xs border-l border-slate-200 dark:border-slate-700 pl-4">
+                <span class="text-slate-400 dark:text-slate-500 font-medium">Developed by</span>
+                <a href="https://github.com/AnimeshSoni777" target="_blank" class="text-brand-600 dark:text-brand-400 font-bold hover:underline transition-colors">Animesh Soni</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="relative py-16 md:py-24 overflow-hidden bg-brand-900 text-white">
+    <div class="container mx-auto px-4 relative z-10 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 leading-tight">Website Security Scanner</h1>
+        <p class="text-brand-100 mb-8 max-w-2xl mx-auto text-lg font-light">
+            Analyze HTTP Security Headers (HSTS, CSP, X-Frame) instantly to discover web vulnerabilities and enforce compliance.
+        </p>
+
+        <div class="max-w-xl mx-auto bg-white dark:bg-slate-800 p-2 rounded-2xl shadow-2xl flex flex-col md:flex-row gap-2 border-4 border-brand-800/30 dark:border-brand-500/30">
+            <div class="flex-grow relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                    <i class="fa-solid fa-globe"></i>
+                </div>
+                <input type="text" id="urlInput" class="w-full pl-11 pr-4 py-3 rounded-xl bg-transparent outline-none text-slate-800 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-brand-100 transition-all" placeholder="Example: github.com" autocomplete="off" />
+            </div>
+            <button onclick="analyzeUrl()" id="analyzeBtn" class="bg-brand hover:bg-brand-600 text-white font-semibold py-3 px-8 rounded-xl transition-all flex items-center justify-center gap-2">
+                <span>Analyze</span>
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+    </div>
+</section>
+
+<main class="flex-grow container mx-auto px-4 py-10 -mt-8 relative z-20">
+    <div id="loader" class="hidden text-center py-12 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 max-w-3xl mx-auto">
+        <div class="relative w-12 h-12 mx-auto mb-4">
+            <div class="w-12 h-12 border-4 border-brand-100 dark:border-brand-900 rounded-full animate-spin border-t-brand-500"></div>
+        </div>
+        <h3 class="text-lg font-semibold text-slate-700 dark:text-white">Scanning Target...</h3>
+    </div>
+
+    <div id="resultsArea" class="hidden space-y-8 fade-in">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-lg border border-slate-100 dark:border-slate-700 p-6 md:p-10 flex flex-col md:flex-row items-center gap-8 md:gap-12 relative overflow-hidden">
+            <div class="relative w-40 h-40 flex-shrink-0">
+                <svg class="w-full h-full transform -rotate-90">
+                    <circle cx="80" cy="80" r="70" class="stroke-slate-100 dark:stroke-slate-700" stroke-width="12" fill="transparent" />
+                    <circle id="scoreCircle" cx="80" cy="80" r="70" class="stroke-brand transition-all duration-1000 ease-out" stroke-width="12" fill="transparent" stroke-dasharray="440" stroke-dashoffset="440" stroke-linecap="round" />
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <span id="scoreValue" class="text-4xl font-bold text-slate-800 dark:text-white">0</span>
+                    <span class="text-xs uppercase font-semibold text-slate-400 tracking-wider">Score</span>
+                </div>
+            </div>
+            <div class="flex-grow text-center md:text-left relative z-10">
+                <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-2 flex items-center justify-center md:justify-start gap-2">
+                    <i class="fa-solid fa-server text-slate-400 text-lg"></i><span id="targetUrl">domain.com</span>
+                </h2>
+                <div class="flex flex-wrap gap-3 justify-center md:justify-start mb-4">
+                    <span id="gradeBadge" class="px-3 py-1 rounded-lg text-sm font-bold bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300">PENDING</span>
+                </div>
+                <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed max-w-xl">
+                    Security analysis is based on HTTP response headers. This tool detects missing client-side defenses but does not replace a comprehensive penetration test.
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-4">
+                <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2"><i class="fa-solid fa-list-check text-brand-600 dark:text-brand-400"></i> Header Details</h3>
+                <div id="headersList" class="space-y-4"></div>
+            </div>
+            <div class="lg:col-span-1">
+                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-slate-100 dark:border-slate-700 overflow-hidden sticky top-24">
+                    <div class="bg-slate-50 dark:bg-slate-700/50 p-4 border-b border-slate-100 dark:border-slate-700">
+                        <h3 class="font-bold text-slate-700 dark:text-white flex items-center"><i class="fa-regular fa-lightbulb mr-2 text-yellow-500"></i> Actionable Insights</h3>
+                    </div>
+                    <ul id="recommendationsList" class="p-5 space-y-4 text-sm text-slate-600 dark:text-slate-300"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-auto pt-10 pb-6 transition-colors">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+
+            <div class="flex flex-col gap-3">
+                <div class="flex items-center gap-2 group cursor-pointer">
+                    <div class="bg-brand-100 dark:bg-brand-900/50 p-2 rounded-lg text-brand-600 dark:text-brand-400 transition-colors">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-slate-800 dark:text-white">Nixture</span>
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed pr-4">
+                    An automated Application Security auditing tool designed to enforce HTTP compliance, discover client-side vulnerabilities, and educate developers.
+                </p>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <h4 class="font-bold text-slate-800 dark:text-white tracking-wide">Learn & Documentation</h4>
+                <ul class="flex flex-col gap-2 text-sm text-slate-500 dark:text-slate-400">
+                    <li>
+                        <a href="https://owasp.org/www-project-secure-headers/" target="_blank" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors flex items-center gap-2">
+                            <i class="fa-solid fa-book-open text-slate-400"></i> OWASP Secure Headers Project
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP" target="_blank" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors flex items-center gap-2">
+                            <i class="fa-brands fa-firefox-browser text-slate-400"></i> MDN: Content Security Policy
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security" target="_blank" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors flex items-center gap-2">
+                            <i class="fa-solid fa-lock text-slate-400"></i> MDN: HSTS Architecture
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options" target="_blank" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors flex items-center gap-2">
+                            <i class="fa-regular fa-window-maximize text-slate-400"></i> MDN: Clickjacking Defense
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col gap-3 md:items-end">
+                <h4 class="font-bold text-slate-800 dark:text-white tracking-wide">Connect with Developer</h4>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-1 md:text-right">Built by <strong>Animesh Soni</strong></p>
+                <div class="flex items-center gap-3">
+                    <a href="https://github.com/AnimeshSoni777" target="_blank" aria-label="GitHub" class="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-800 hover:text-white dark:hover:bg-brand-600 transition-all shadow-sm">
+                        <i class="fa-brands fa-github text-lg"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/animeshsoni/" target="_blank" aria-label="LinkedIn" class="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-[#0A66C2] hover:text-white dark:hover:bg-[#0A66C2] transition-all shadow-sm">
+                        <i class="fa-brands fa-linkedin-in text-lg"></i>
+                    </a>
+                    <a href="https://www.instagram.com/animesh.soni.777?igsh=NXpla2VncWMxbGFk" target="_blank" aria-label="Instagram" class="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-[#E1306C] hover:text-white dark:hover:bg-[#E1306C] transition-all shadow-sm">
+                        <i class="fa-brands fa-instagram text-lg"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+            <p>&copy; <span id="year"></span> Nixture Security. All rights reserved.</p>
+            <p>Powered by Spring Boot & Java 17+</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/main.js"></script>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

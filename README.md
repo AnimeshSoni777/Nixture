@@ -6,7 +6,7 @@
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 - **Real-Time Vulnerability Scanning:** Leverages Java's modern `HttpClient` to audit live web servers, automatically following redirects to map the true security posture of the final endpoint.
 - **Proprietary Security Scoring:** A custom backend algorithm weights individual headers (HSTS, CSP, X-Frame-Options, etc.) to generate a comprehensive `0-100` security grade.
@@ -66,6 +66,6 @@ This tool is a practical implementation of **Information Security and Legal Comp
 4. Run the Spring Boot application:
    ```bash
    mvn spring-boot:run
-6. Open your browser and navigate to:  
-  ```plaintext
-  http://localhost:8081
+6. Open your browser and navigate to:
+   ```plaintext
+   http://localhost:8081

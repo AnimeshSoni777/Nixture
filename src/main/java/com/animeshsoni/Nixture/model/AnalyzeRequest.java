@@ -3,7 +3,6 @@ package com.animeshsoni.Nixture.model;
 public class AnalyzeRequest {
     private String url;
 
-    // Default constructor needed for Spring Boot to parse JSON
     public AnalyzeRequest() {}
 
     public AnalyzeRequest(String url) {

@@ -35,16 +35,28 @@ public class ScannerController {
         }
 
         try {
-            // Build the request mimicking a real browser to bypass basic blocks
-            HttpRequest httpRequest = HttpRequest.newBuilder()
+           HttpRequest httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .timeout(Duration.ofSeconds(20))
+                    // The core identity
                     .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
-                    .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8")
+                    .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+                    .header("Accept-Language", "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7")
+                    .header("Accept-Encoding", "gzip, deflate, br")
+                    // WAF Bypass / Browser Fingerprint Headers
+                    .header("Upgrade-Insecure-Requests", "1")
+                    .header("Sec-Fetch-Dest", "document")
+                    .header("Sec-Fetch-Mode", "navigate")
+                    .header("Sec-Fetch-Site", "none")
+                    .header("Sec-Fetch-User", "?1")
+                    .header("Cache-Control", "max-age=0")
+                    .header("Sec-Ch-Ua", "\"Chromium\";v=\"124\", \"Google Chrome\";v=\"124\", \"Not-A.Brand\";v=\"99\"")
+                    .header("Sec-Ch-Ua-Mobile", "?0")
+                    .header("Sec-Ch-Ua-Platform", "\"Windows\"")
+                    .header("Referer", "https://www.google.com/")
                     .GET()
                     .build();
 
-            // Send request and get headers
             HttpResponse<Void> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.discarding());
             var serverHeaders = response.headers().map();
 
@@ -53,9 +65,7 @@ public class ScannerController {
             int score = 0;
             int maxScore = Arrays.stream(SecurityHeader.values()).mapToInt(SecurityHeader::getWeight).sum();
 
-            // Analyze headers against our Enum configuration
             for (SecurityHeader config : SecurityHeader.values()) {
-                // Java HttpResponse headers map keys are always lowercase
                 List<String> headerValues = serverHeaders.get(config.getHeaderKey().toLowerCase());
                 boolean isPresent = (headerValues != null && !headerValues.isEmpty());
                 String value = isPresent ? String.join(", ", headerValues) : null;
@@ -79,7 +89,6 @@ public class ScannerController {
             int statusCode = response.statusCode();
             boolean wafSuspected = false;
 
-            // WAF Detection Logic (Translated from your Python script)
             List<Integer> blockedCodes = Arrays.asList(403, 429);
             if ((statusCode == 200 || blockedCodes.contains(statusCode)) && finalScore == 0) {
                 wafSuspected = true;
